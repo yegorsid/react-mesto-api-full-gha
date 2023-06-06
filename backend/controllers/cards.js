@@ -7,7 +7,7 @@ const DataNotFoundError = require('../errors/DataNotFoundError');
 module.exports.getCards = (req, res, next) => {
   cardSchema
     .find({})
-    .then((cards) => res.send(cards))
+    .then((cards) => res.send(cards.reverse()))
     .catch(next);
 };
 

@@ -7,6 +7,7 @@ const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const { validateUserCreation, validateLogin } = require('./middlewares/validators');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const cors = require('./middlewares/cors');
 
 const app = express();
 const { PORT = 3000 } = process.env;
@@ -14,6 +15,8 @@ const { PORT = 3000 } = process.env;
 app.use(express.json());
 
 app.use(requestLogger);
+
+app.use(cors);
 
 app.get('/crash-test', () => {
   setTimeout(() => {

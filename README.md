@@ -13,4 +13,4 @@ IP 158.160.50.143
 
 Frontend https://skavr.nomoredomains.rocks
 
-Backend https://skavr.nomoredomains.rocks/api
+Backend https://api.skavr.nomoredomains.rocks

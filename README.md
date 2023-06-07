@@ -9,7 +9,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 158.160.50.143
+IP 158.160.50.143
 
 Frontend https://skavr.nomoredomains.rocks
 

@@ -4,9 +4,9 @@ const usersRouter = require('./users');
 const cardsRouter = require('./cards');
 const DataNotFoundError = require('../errors/DataNotFoundError');
 
-router.use('/api/users', usersRouter);
-router.use('/api/cards', cardsRouter);
-router.use('/api/*', (req, res, next) => {
+router.use('/users', usersRouter);
+router.use('/cards', cardsRouter);
+router.use('/*', (req, res, next) => {
   next(new DataNotFoundError('Not found'));
 });
 

@@ -11,13 +11,6 @@ const UserAuthError = require('../errors/UserAuthError');
 
 const { saltRounds } = require('../utils/constants');
 
-module.exports.getUsers = (req, res, next) => {
-  userSchema
-    .find({})
-    .then((users) => res.send(users))
-    .catch(next);
-};
-
 module.exports.getUserById = (req, res, next) => {
   const { userId } = req.params;
   userSchema
@@ -39,15 +32,15 @@ module.exports.getUserById = (req, res, next) => {
 
 module.exports.createUser = (req, res, next) => {
   const {
-    name, about, avatar, email, password,
+    name, email, password,
   } = req.body;
   bcrypt.hash(password, saltRounds)
     .then((hash) => userSchema.create({
-      name, about, avatar, email, password: hash,
+      name, email, password: hash,
     }))
     .then(() => res.status(201).send({
       data: {
-        name, about, avatar, email,
+        name, email,
       },
     }))
     .catch((err) => {
@@ -63,28 +56,13 @@ module.exports.createUser = (req, res, next) => {
 };
 
 module.exports.updateUser = (req, res, next) => {
-  const { name, about } = req.body;
+  const { name, email } = req.body;
   userSchema
-    .findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
+    .findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true })
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new InvalidDataError('Error appears when update user info'));
-        return;
-      }
-
-      next(err);
-    });
-};
-
-module.exports.updateAvatar = (req, res, next) => {
-  const { avatar } = req.body;
-  userSchema
-    .findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
-    .then((user) => res.send(user))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        next(new InvalidDataError('Error appears when update avatar'));
         return;
       }
 
@@ -112,21 +90,4 @@ module.exports.login = (req, res, next) => {
         });
     })
     .catch(next);
-};
-
-module.exports.getUserInfo = (req, res, next) => {
-  userSchema
-    .findById(req.user._id)
-    .then((user) => {
-      if (!user) {
-        throw new DataNotFoundError('Could not find user by ID');
-      }
-      res.status(200).send(user);
-    })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        return next(new InvalidDataError('Error appears when get user'));
-      }
-      return next(err);
-    });
 };

@@ -18,12 +18,6 @@ app.use(requestLogger);
 
 app.use(cors);
 
-app.get('/crash-test', () => {
-  setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
-  }, 0);
-});
-
 app.post('/signin', validateLogin, login);
 app.post('/signup', validateUserCreation, createUser);
 
@@ -44,7 +38,7 @@ app.use((err, req, res, next) => {
   return next();
 });
 
-mongoose.connect('mongodb://0.0.0.0:27017/mestodb', {});
+mongoose.connect('mongodb://0.0.0.0:27017/bitfilmsdb', {});
 
 app.listen(PORT, () => {
   console.log(`Started on port ${PORT}`);

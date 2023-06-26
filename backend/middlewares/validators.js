@@ -1,24 +1,25 @@
 const { Joi, celebrate } = require('celebrate');
 const { urlRegex } = require('../utils/constants');
 
-module.exports.validateCardCreation = celebrate({
+module.exports.validateMovieCreation = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30).required(),
-    link: Joi.string().required().regex(urlRegex),
-  }),
-});
-
-module.exports.validateCardId = celebrate({
-  params: Joi.object().keys({
-    cardId: Joi.string().hex().length(24).required(),
+    country: Joi.string().required(),
+    director: Joi.string().required(),
+    duration: Joi.number().required(),
+    year: Joi.number().required(),
+    description: Joi.string().required(),
+    image: Joi.string().regex(urlRegex).required(),
+    trailerLink: Joi.string().regex(urlRegex).required(),
+    thumbnail: Joi.string().regex(urlRegex).required(),
+    movieId: Joi.number().required(),
+    nameRU: Joi.string().required(),
+    nameEN: Joi.string().required(),
   }),
 });
 
 module.exports.validateUserCreation = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
-    avatar: Joi.string().regex(urlRegex),
+    name: Joi.string().min(2).max(30).required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(5).required(),
   }),
@@ -26,20 +27,8 @@ module.exports.validateUserCreation = celebrate({
 
 module.exports.validateUserUpdate = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
-  }),
-});
-
-module.exports.validateAvatarUpdate = celebrate({
-  body: Joi.object().keys({
-    avatar: Joi.string().regex(urlRegex),
-  }),
-});
-
-module.exports.validateUserId = celebrate({
-  params: Joi.object().keys({
-    userId: Joi.string().hex().length(24).required(),
+    name: Joi.string().min(2).max(30).required(),
+    email: Joi.string().email().required(),
   }),
 });
 

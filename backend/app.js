@@ -10,7 +10,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('./middlewares/cors');
 
 const app = express();
-const { PORT = 3000 } = process.env;
+const { PORT = 3000, DATABASE = 'mongodb://0.0.0.0:27017/bitfilmsdb' } = process.env;
 
 app.use(express.json());
 
@@ -38,7 +38,7 @@ app.use((err, req, res, next) => {
   return next();
 });
 
-mongoose.connect('mongodb://0.0.0.0:27017/bitfilmsdb', {});
+mongoose.connect(DATABASE, {});
 
 app.listen(PORT, () => {
   console.log(`Started on port ${PORT}`);

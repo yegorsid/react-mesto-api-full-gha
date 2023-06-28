@@ -6,7 +6,7 @@ const DataNotFoundError = require('../errors/DataNotFoundError');
 
 module.exports.getMovies = (req, res, next) => {
   movieSchema
-    .find({})
+    .find({ owner: req.user._id })
     .then((movies) => res.send(movies.reverse()))
     .catch(next);
 };

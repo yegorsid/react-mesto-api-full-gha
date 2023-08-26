@@ -4,6 +4,8 @@ const allowedCors = [
   'localhost:3000',
   'https://api.skavr.nomoredomains.rocks',
   'http://api.skavr.nomoredomains.rocks',
+  'https://api.nomoreparties.co',
+  'http://api.nomoreparties.co',
 ];
 
 module.exports = (req, res, next) => {

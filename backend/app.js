@@ -7,7 +7,7 @@ const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const { validateUserCreation, validateLogin } = require('./middlewares/validators');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const cors = require('./middlewares/cors');
+// const cors = require('./middlewares/cors');
 
 const app = express();
 const { PORT = 3000, DATABASE = 'mongodb://0.0.0.0:27017/bitfilmsdb' } = process.env;
@@ -16,7 +16,7 @@ app.use(express.json());
 
 app.use(requestLogger);
 
-app.use(cors);
+// app.use(cors);
 
 app.post('/signin', validateLogin, login);
 app.post('/signup', validateUserCreation, createUser);

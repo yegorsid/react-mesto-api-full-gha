@@ -11,15 +11,34 @@ const UserAuthError = require('../errors/UserAuthError');
 
 const { saltRounds } = require('../utils/constants');
 
+// module.exports.getUserById = (req, res, next) => {
+//   const { userId } = req.params;
+//   userSchema
+//     .findById(userId)
+//     .then((user) => {
+//       if (!user) {
+//         throw new DataNotFoundError('Could not find user by ID');
+//       }
+//       res.send({ data: user });
+//     })
+//     .catch((err) => {
+//       if (err.name === 'CastError') {
+//         return next(new InvalidDataError('Error appears when get user'));
+//       }
+
+//       return next(err);
+//     });
+// };
+
 module.exports.getUserById = (req, res, next) => {
-  const { userId } = req.params;
+  const { _id } = req.user;
   userSchema
-    .findById(userId)
+    .findById(_id)
     .then((user) => {
       if (!user) {
         throw new DataNotFoundError('Could not find user by ID');
       }
-      res.send({ data: user });
+      res.send({ user });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -38,11 +57,19 @@ module.exports.createUser = (req, res, next) => {
     .then((hash) => userSchema.create({
       name, email, password: hash,
     }))
-    .then(() => res.status(201).send({
-      data: {
-        name, email,
-      },
-    }))
+    // .then(() => res.status(201).send({
+    //   data: {
+    //     name, email,
+    //   },
+    // }))
+    .then((user) => {
+      const { _id } = user;
+      res.send({
+        _id,
+        name,
+        email,
+      });
+    })
     .catch((err) => {
       if (err.code === 11000) {
         return next(new ConflictError('User is already exist'));
